@@ -10,11 +10,11 @@ export interface Element extends HTMLDivElement {
   /**
    * List name.
    */
-  name?: string;
+  name: string;
   /**
    * List values.
    */
-  value?: any[];
+  value: any[];
   /**
    * Default list value.
    */
