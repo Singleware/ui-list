@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2018 Silas B. Domingos
+ * Copyright (C) 2018-2020 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 import { Render } from './render';
@@ -21,25 +21,33 @@ export interface Properties {
    */
   name?: string;
   /**
+   * List type.
+   */
+  type?: string;
+  /**
    * List values.
    */
   value?: any[];
   /**
-   * Determines whether this list is required or not.
+   * Determines whether or not this list is required.
    */
   required?: boolean;
   /**
-   * Determines whether this list is read-only or not.
+   * Determines whether or not this list is read-only.
    */
   readOnly?: boolean;
   /**
-   * Determines whether this list is disabled or not.
+   * Determines whether or not this list is disabled.
    */
   disabled?: boolean;
   /**
-   * Determines whether list items is draggable or not.
+   * Determines whether or not list items is draggable.
    */
   draggable?: boolean;
+  /**
+   * Determines whether or not the list item is shareable among other similar lists.
+   */
+  shareable?: boolean;
   /**
    * List column children.
    */

@@ -12,6 +12,10 @@ export interface Element extends HTMLDivElement {
    */
   name: string;
   /**
+   * List type.
+   */
+  type: string;
+  /**
    * List values.
    */
   value: any[];
@@ -28,25 +32,29 @@ export interface Element extends HTMLDivElement {
    */
   readonly length: number;
   /**
-   * Determine whether list is empty or not.
+   * Determine whether or not the list is empty.
    */
   readonly empty: boolean;
   /**
-   * Determines whether this list is required or not.
+   * Determines whether or not the list is required.
    */
   required: boolean;
   /**
-   * Determines whether this list is read-only or not.
+   * Determines whether or not the list is read-only.
    */
   readOnly: boolean;
   /**
-   * Determines whether this list is disabled or not.
+   * Determines whether or not the list is disabled.
    */
   disabled: boolean;
   /**
-   * Determines whether list items are draggable or not.
+   * Determines whether or not the list items are draggable.
    */
   draggable: boolean;
+  /**
+   * Determines whether or not the list item is shareable among other similar lists.
+   */
+  shareable: boolean;
   /**
    * Adds a new item into this list.
    * @param data Item data.

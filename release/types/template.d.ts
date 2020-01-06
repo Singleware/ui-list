@@ -10,9 +10,29 @@ export declare class Template<T extends Object = any> extends Control.Component<
      */
     private states;
     /**
-     * Current element.
+     * Matched elements.
      */
-    private current?;
+    private static matchedElements;
+    /**
+     * Matched items.
+     */
+    private static matchedItems;
+    /**
+     * Drag type.
+     */
+    private static dragType?;
+    /**
+     * Drag list items.
+     */
+    private static dragItems?;
+    /**
+     * Drag list element.
+     */
+    private static dragListElement?;
+    /**
+     * Drag item element.
+     */
+    private static dragItemElement?;
     /**
      * Mirror element.
      */
@@ -25,14 +45,6 @@ export declare class Template<T extends Object = any> extends Control.Component<
      * List items slot.
      */
     private itemSlot;
-    /**
-     * Matched elements.
-     */
-    private matchedElements;
-    /**
-     * Matched items.
-     */
-    private matchedItems;
     /**
      * Move mirror callback.
      */
@@ -52,8 +64,8 @@ export declare class Template<T extends Object = any> extends Control.Component<
      */
     private updatePropertyState;
     /**
-     * Renders a new item for the specified data.
-     * @param data Item data.
+     * Renders a new item for the specified value.
+     * @param value Value item.
      * @returns Returns the rendered item or undefined when there is no rendered output.
      */
     private renderItem;
@@ -66,10 +78,6 @@ export declare class Template<T extends Object = any> extends Control.Component<
      */
     private renderMirror;
     /**
-     * Notify changes into this list.
-     */
-    private notifyChanges;
-    /**
      * Updates the mirror position based on the specified coordinates.
      * @param mirror Mirror element.
      * @param x X coordinate.
@@ -78,7 +86,7 @@ export declare class Template<T extends Object = any> extends Control.Component<
     private updateMirrorPosition;
     /**
      * Drag start event handler.
-     * @param item Item element.
+     * @param element Item element.
      * @param event Event information.
      */
     private dragStartHandler;
@@ -88,7 +96,7 @@ export declare class Template<T extends Object = any> extends Control.Component<
     private dragEndHandler;
     /**
      * Drag enter event handler.
-     * @param item Item element.
+     * @param element Item element.
      * @param event Event information.
      */
     private dragEnterHandler;
@@ -102,6 +110,10 @@ export declare class Template<T extends Object = any> extends Control.Component<
      * @param event Event information.
      */
     private dropHandler;
+    /**
+     * Drag enter event handler.
+     */
+    private dragListEnterHandler;
     /**
      * Render item event handler.
      * @param event Event information.
@@ -146,6 +158,13 @@ export declare class Template<T extends Object = any> extends Control.Component<
     * Sets the list name.
     */
     name: string;
+    /**
+     * Gets the list type.
+     */
+    /**
+    * Sets the list type.
+    */
+    type: string | undefined;
     /**
      * Gets the list values.
      */
@@ -198,28 +217,35 @@ export declare class Template<T extends Object = any> extends Control.Component<
     */
     draggable: boolean;
     /**
+     * Gets the shareable state.
+     */
+    /**
+    * Sets the shareable state.
+    */
+    shareable: boolean;
+    /**
      * Gets the list element.
      */
     readonly element: Element;
     /**
      * Adds a new item into this list.
-     * @param data Item data.
+     * @param value Value item.
      * @returns Returns true when the item was added, false otherwise.
      */
-    addItem(data: T): boolean;
+    addItem(value: T): boolean;
     /**
      * Inserts a new item at the specified point into this list.
-     * @param data Item data.
-     * @param offset Offset data.
+     * @param value Value item.
+     * @param offset Value offset.
      * @returns Returns true when the item was inserted, false otherwise.
      */
-    insertItem(data: T, offset: T): boolean;
+    insertItem(value: T, offset: T): boolean;
     /**
      * Removes the specified item from this list.
-     * @param data Item data.
+     * @param value Value item.
      * @returns Returns true when the item was removed, false otherwise.
      */
-    removeItem(data: T): boolean;
+    removeItem(value: T): boolean;
     /**
      * Clear all list items.
      */

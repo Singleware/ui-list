@@ -12,6 +12,10 @@ export interface States {
    */
   name: string;
   /**
+   * List type.
+   */
+  type?: string;
+  /**
    * List items.
    */
   items: any[];
@@ -27,6 +31,10 @@ export interface States {
    * Draggable state.
    */
   draggable: boolean;
+  /**
+   * Shareable state.
+   */
+  shareable: boolean;
   /**
    * Readonly state.
    */
