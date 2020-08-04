@@ -1,9 +1,9 @@
 /**
- * Copyright (C) 2018 Silas B. Domingos
+ * Copyright (C) 2018-2020 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 import * as Class from '@singleware/class';
-import * as DOM from '@singleware/jsx';
+import * as JSX from '@singleware/jsx';
 import * as Control from '@singleware/ui-control';
 
 import { Properties } from './properties';
@@ -214,11 +214,11 @@ export class Template<T extends Object = any> extends Control.Component<Properti
   private dragStartHandler(element: HTMLElement, event: DragEvent): void {
     if (this.canDragAndDrop) {
       if (event.dataTransfer) {
-        DOM.append(this.skeleton, this.hidden);
+        JSX.append(this.skeleton, this.hidden);
         event.dataTransfer.setDragImage(this.hidden, 0, 0);
         event.dataTransfer.effectAllowed = 'move';
       }
-      DOM.append(this.skeleton, (this.mirror = this.renderMirror(element, event.pageX, event.pageY)));
+      JSX.append(this.skeleton, (this.mirror = this.renderMirror(element, event.pageX, event.pageY)));
       document.addEventListener('dragover', this.moveMirrorCallback, true);
       this.updatePropertyState('active', true);
       Template.dragType = this.type;
@@ -399,11 +399,11 @@ export class Template<T extends Object = any> extends Control.Component<Properti
    */
   @Class.Private()
   private bindHandlers(): void {
-    this.skeleton.addEventListener('change', this.changeItemHandler.bind(this));
-    this.skeleton.addEventListener('renderitem', this.renderItemHandler.bind(this));
-    this.skeleton.addEventListener('rendermirror', this.renderMirrorHandler.bind(this));
+    this.skeleton.addEventListener('renderitem', this.renderItemHandler.bind(this) as EventListenerOrEventListenerObject);
+    this.skeleton.addEventListener('rendermirror', this.renderMirrorHandler.bind(this) as EventListenerOrEventListenerObject);
     this.skeleton.addEventListener('dragenter', this.dragListEnterHandler.bind(this), true);
     this.skeleton.addEventListener('dragover', this.dragOverHandler.bind(this), true);
+    this.skeleton.addEventListener('change', this.changeItemHandler.bind(this));
   }
 
   /**
@@ -458,7 +458,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
    */
   constructor(properties?: Properties, children?: any[]) {
     super(properties, children);
-    DOM.append((this.skeleton as HTMLDivElement).attachShadow({ mode: 'closed' }), this.styles, this.itemSlot);
+    JSX.append((this.skeleton as HTMLDivElement).attachShadow({ mode: 'closed' }), this.styles, this.itemSlot);
     this.bindHandlers();
     this.bindProperties();
     this.assignProperties();
@@ -645,6 +645,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
     }
     this.states.items.push(value);
     this.skeleton.appendChild(element);
+    this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
     return true;
   }
 
@@ -665,6 +666,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
     if (newer) {
       list.splice(list.indexOf(offset) + 1, 0, value);
       this.skeleton.insertBefore(newer, element.nextSibling);
+      this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
       return true;
     }
     return false;
@@ -682,6 +684,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
     if (element) {
       element.remove();
       list.splice(list.indexOf(value), 1);
+      this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
       return true;
     }
     return false;
@@ -692,8 +695,9 @@ export class Template<T extends Object = any> extends Control.Component<Properti
    */
   @Class.Public()
   public clear(): void {
-    DOM.clear(this.skeleton);
+    JSX.clear(this.skeleton);
     this.states.items = [];
+    this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
   }
 
   /**
@@ -704,9 +708,8 @@ export class Template<T extends Object = any> extends Control.Component<Properti
   public checkValidity(): boolean {
     return (
       (!this.required || !this.empty) &&
-      Control.listChildrenByProperty(this.itemSlot, 'checkValidity', (element: any) =>
-        element.checkValidity() ? void 0 : false
-      ) !== false
+      Control.listChildrenByProperty(this.itemSlot, 'checkValidity', (element: any) => (element.checkValidity() ? void 0 : false)) !==
+        false
     );
   }
 

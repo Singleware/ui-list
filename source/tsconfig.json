@@ -7,9 +7,11 @@
     "jsxFactory": "JSX.create",
     "strict": true,
     "incremental": true,
+    "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "outDir": "../release/examples",
+    "outDir": "../release/source",
+    "declarationDir": "../release/types"
   },
   "include": [
     "./**/*"

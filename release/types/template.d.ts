@@ -154,79 +154,87 @@ export declare class Template<T extends Object = any> extends Control.Component<
     /**
      * Gets the list name.
      */
+    get name(): string;
     /**
-    * Sets the list name.
-    */
-    name: string;
+     * Sets the list name.
+     */
+    set name(name: string);
     /**
      * Gets the list type.
      */
+    get type(): string | undefined;
     /**
-    * Sets the list type.
-    */
-    type: string | undefined;
+     * Sets the list type.
+     */
+    set type(type: string | undefined);
     /**
      * Gets the list values.
      */
+    get value(): any[];
     /**
-    * Sets the list values.
-    */
-    value: any[];
+     * Sets the list values.
+     */
+    set value(values: any[]);
     /**
      * Gets the default value.
      */
-    readonly defaultValue: T[];
+    get defaultValue(): T[];
     /**
      * Gets the drag and drop state.
      */
-    readonly canDragAndDrop: boolean;
+    get canDragAndDrop(): boolean;
     /**
      * Gets the list length.
      */
-    readonly length: number;
+    get length(): number;
     /**
      * Gets the empty state.
      */
-    readonly empty: boolean;
+    get empty(): boolean;
     /**
      * Gets the required state.
      */
+    get required(): boolean;
     /**
-    * Sets the required state.
-    */
-    required: boolean;
+     * Sets the required state.
+     */
+    set required(state: boolean);
     /**
      * Gets the read-only state.
      */
+    get readOnly(): boolean;
     /**
-    * Sets the read-only state.
-    */
-    readOnly: boolean;
+     * Sets the read-only state.
+     */
+    set readOnly(state: boolean);
     /**
      * Gets the disabled state.
      */
+    get disabled(): boolean;
     /**
-    * Sets the disabled state.
-    */
-    disabled: boolean;
+     * Sets the disabled state.
+     */
+    set disabled(state: boolean);
     /**
      * Gets the draggable state.
      */
+    get draggable(): boolean;
     /**
-    * Sets the draggable state.
-    */
-    draggable: boolean;
+     * Sets the draggable state.
+     */
+    set draggable(state: boolean);
     /**
      * Gets the shareable state.
      */
+    get shareable(): boolean;
     /**
-    * Sets the shareable state.
-    */
-    shareable: boolean;
+     * Sets the shareable state.
+     */
+    set shareable(state: boolean);
     /**
      * Gets the list element.
      */
-    readonly element: Element;
+    get element(): Element;
     /**
      * Adds a new item into this list.
      * @param value Value item.

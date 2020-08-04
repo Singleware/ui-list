@@ -5,4 +5,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 var template_1 = require("./template");
-exports.Template = template_1.Template;
+Object.defineProperty(exports, "Template", { enumerable: true, get: function () { return template_1.Template; } });

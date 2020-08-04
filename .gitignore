@@ -1,4 +1,7 @@
 .*
 node_modules/
+release/examples/
+release/**/*.tsbuildinfo
+release/**/*.map
 !.gitignore
 !.npmignore

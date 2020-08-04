@@ -5,15 +5,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var Template_1;
-"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Template = void 0;
 /**
- * Copyright (C) 2018 Silas B. Domingos
+ * Copyright (C) 2018-2020 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
  */
 const Class = require("@singleware/class");
-const DOM = require("@singleware/jsx");
+const JSX = require("@singleware/jsx");
 const Control = require("@singleware/ui-control");
 /**
  * List template class.
@@ -41,11 +41,11 @@ let Template = Template_1 = class Template extends Control.Component {
         /**
          * Hidden element to hide the default drag and drop image.
          */
-        this.hidden = (DOM.create("span", { style: "position: absolute; height: 0px; width: 0px; left: 0px; top: 0px;" }));
+        this.hidden = (JSX.create("span", { style: "position: absolute; height: 0px; width: 0px; left: 0px; top: 0px;" }));
         /**
          * List items slot.
          */
-        this.itemSlot = (DOM.create("slot", { name: "item", class: "item" }));
+        this.itemSlot = (JSX.create("slot", { name: "item", class: "item" }));
         /**
          * Move mirror callback.
          */
@@ -53,7 +53,7 @@ let Template = Template_1 = class Template extends Control.Component {
         /**
          * List styles.
          */
-        this.styles = (DOM.create("style", null, `:host {
+        this.styles = (JSX.create("style", null, `:host {
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -79,8 +79,8 @@ let Template = Template_1 = class Template extends Control.Component {
         /**
          * List skeleton.
          */
-        this.skeleton = (DOM.create("div", { slot: this.properties.slot, class: this.properties.class }, this.children));
-        DOM.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.itemSlot);
+        this.skeleton = (JSX.create("div", { slot: this.properties.slot, class: this.properties.class }, this.children));
+        JSX.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.itemSlot);
         this.bindHandlers();
         this.bindProperties();
         this.assignProperties();
@@ -159,11 +159,11 @@ let Template = Template_1 = class Template extends Control.Component {
     dragStartHandler(element, event) {
         if (this.canDragAndDrop) {
             if (event.dataTransfer) {
-                DOM.append(this.skeleton, this.hidden);
+                JSX.append(this.skeleton, this.hidden);
                 event.dataTransfer.setDragImage(this.hidden, 0, 0);
                 event.dataTransfer.effectAllowed = 'move';
             }
-            DOM.append(this.skeleton, (this.mirror = this.renderMirror(element, event.pageX, event.pageY)));
+            JSX.append(this.skeleton, (this.mirror = this.renderMirror(element, event.pageX, event.pageY)));
             document.addEventListener('dragover', this.moveMirrorCallback, true);
             this.updatePropertyState('active', true);
             Template_1.dragType = this.type;
@@ -327,11 +327,11 @@ let Template = Template_1 = class Template extends Control.Component {
      * Bind all element handlers.
      */
     bindHandlers() {
-        this.skeleton.addEventListener('change', this.changeItemHandler.bind(this));
         this.skeleton.addEventListener('renderitem', this.renderItemHandler.bind(this));
         this.skeleton.addEventListener('rendermirror', this.renderMirrorHandler.bind(this));
         this.skeleton.addEventListener('dragenter', this.dragListEnterHandler.bind(this), true);
         this.skeleton.addEventListener('dragover', this.dragOverHandler.bind(this), true);
+        this.skeleton.addEventListener('change', this.changeItemHandler.bind(this));
     }
     /**
      * Bind exposed properties to the custom element.
@@ -520,6 +520,7 @@ let Template = Template_1 = class Template extends Control.Component {
         }
         this.states.items.push(value);
         this.skeleton.appendChild(element);
+        this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
         return true;
     }
     /**
@@ -538,6 +539,7 @@ let Template = Template_1 = class Template extends Control.Component {
         if (newer) {
             list.splice(list.indexOf(offset) + 1, 0, value);
             this.skeleton.insertBefore(newer, element.nextSibling);
+            this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
             return true;
         }
         return false;
@@ -553,6 +555,7 @@ let Template = Template_1 = class Template extends Control.Component {
         if (element) {
             element.remove();
             list.splice(list.indexOf(value), 1);
+            this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
             return true;
         }
         return false;
@@ -561,8 +564,9 @@ let Template = Template_1 = class Template extends Control.Component {
      * Clear all list items.
      */
     clear() {
-        DOM.clear(this.skeleton);
+        JSX.clear(this.skeleton);
         this.states.items = [];
+        this.skeleton.dispatchEvent(new Event('change', { bubbles: true, cancelable: false }));
     }
     /**
      * Checks the list validity.
@@ -570,7 +574,8 @@ let Template = Template_1 = class Template extends Control.Component {
      */
     checkValidity() {
         return ((!this.required || !this.empty) &&
-            Control.listChildrenByProperty(this.itemSlot, 'checkValidity', (element) => element.checkValidity() ? void 0 : false) !== false);
+            Control.listChildrenByProperty(this.itemSlot, 'checkValidity', (element) => (element.checkValidity() ? void 0 : false)) !==
+                false);
     }
     /**
      * Reports the list validity.
