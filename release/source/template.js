@@ -27,6 +27,10 @@ let Template = Template_1 = class Template extends Control.Component {
     constructor(properties, children) {
         super(properties, children);
         /**
+         * Matched items.
+         */
+        this.matchedItems = new WeakMap();
+        /**
          * List states.
          */
         this.states = {
@@ -116,7 +120,7 @@ let Template = Template_1 = class Template extends Control.Component {
             element.draggable = this.draggable;
             element.slot = 'item';
             Template_1.matchedElements.set(element, value);
-            Template_1.matchedItems.set(value, element);
+            this.matchedItems.set(value, element);
             return element;
         }
         return void 0;
@@ -530,7 +534,7 @@ let Template = Template_1 = class Template extends Control.Component {
      * @returns Returns true when the item was inserted, false otherwise.
      */
     insertItem(value, offset) {
-        const element = Template_1.matchedItems.get(offset);
+        const element = this.matchedItems.get(offset);
         if (!element) {
             throw new Error(`Element does not exists at the specified offset.`);
         }
@@ -551,7 +555,7 @@ let Template = Template_1 = class Template extends Control.Component {
      */
     removeItem(value) {
         const list = this.states.items;
-        const element = Template_1.matchedItems.get(value);
+        const element = this.matchedItems.get(value);
         if (element) {
             element.remove();
             list.splice(list.indexOf(value), 1);
@@ -601,10 +605,9 @@ let Template = Template_1 = class Template extends Control.Component {
  * Matched elements.
  */
 Template.matchedElements = new WeakMap();
-/**
- * Matched items.
- */
-Template.matchedItems = new WeakMap();
+__decorate([
+    Class.Private()
+], Template.prototype, "matchedItems", void 0);
 __decorate([
     Class.Private()
 ], Template.prototype, "states", void 0);
@@ -739,12 +742,6 @@ __decorate([
 ], Template.prototype, "reset", null);
 __decorate([
     Class.Private()
-], Template, "matchedElements", void 0);
-__decorate([
-    Class.Private()
-], Template, "matchedItems", void 0);
-__decorate([
-    Class.Private()
 ], Template, "dragType", void 0);
 __decorate([
     Class.Private()
@@ -755,6 +752,9 @@ __decorate([
 __decorate([
     Class.Private()
 ], Template, "dragItemElement", void 0);
+__decorate([
+    Class.Private()
+], Template, "matchedElements", void 0);
 Template = Template_1 = __decorate([
     Class.Describe()
 ], Template);

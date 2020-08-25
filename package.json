@@ -7,7 +7,7 @@
   "name": "@singleware/ui-list",
   "description": "Singleware UI list package.",
   "license": "MIT",
-  "version": "1.0.47",
+  "version": "1.0.49",
   "main": "release/source/index.js",
   "types": "release/types/index.d.ts",
   "keywords": [

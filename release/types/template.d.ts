@@ -6,18 +6,6 @@ import { Element } from './element';
  */
 export declare class Template<T extends Object = any> extends Control.Component<Properties> {
     /**
-     * List states.
-     */
-    private states;
-    /**
-     * Matched elements.
-     */
-    private static matchedElements;
-    /**
-     * Matched items.
-     */
-    private static matchedItems;
-    /**
      * Drag type.
      */
     private static dragType?;
@@ -33,6 +21,18 @@ export declare class Template<T extends Object = any> extends Control.Component<
      * Drag item element.
      */
     private static dragItemElement?;
+    /**
+     * Matched elements.
+     */
+    private static matchedElements;
+    /**
+     * Matched items.
+     */
+    private matchedItems;
+    /**
+     * List states.
+     */
+    private states;
     /**
      * Mirror element.
      */

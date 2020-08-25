@@ -17,32 +17,6 @@ import { States } from './states';
 @Class.Describe()
 export class Template<T extends Object = any> extends Control.Component<Properties> {
   /**
-   * List states.
-   */
-  @Class.Private()
-  private states = {
-    name: '',
-    items: [],
-    required: false,
-    readOnly: false,
-    disabled: false,
-    draggable: false,
-    shareable: false
-  } as States;
-
-  /**
-   * Matched elements.
-   */
-  @Class.Private()
-  private static matchedElements = new WeakMap<HTMLElement, any>();
-
-  /**
-   * Matched items.
-   */
-  @Class.Private()
-  private static matchedItems = new WeakMap<any, HTMLElement>();
-
-  /**
    * Drag type.
    */
   @Class.Private()
@@ -65,6 +39,32 @@ export class Template<T extends Object = any> extends Control.Component<Properti
    */
   @Class.Private()
   private static dragItemElement?: HTMLElement;
+
+  /**
+   * Matched elements.
+   */
+  @Class.Private()
+  private static matchedElements = new WeakMap<HTMLElement, any>();
+
+  /**
+   * Matched items.
+   */
+  @Class.Private()
+  private matchedItems = new WeakMap<any, HTMLElement>();
+
+  /**
+   * List states.
+   */
+  @Class.Private()
+  private states = {
+    name: '',
+    items: [],
+    required: false,
+    readOnly: false,
+    disabled: false,
+    draggable: false,
+    shareable: false
+  } as States;
 
   /**
    * Mirror element.
@@ -165,7 +165,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
       element.draggable = this.draggable;
       element.slot = 'item';
       Template.matchedElements.set(element, value);
-      Template.matchedItems.set(value, element);
+      this.matchedItems.set(value, element);
       return element;
     }
     return void 0;
@@ -657,7 +657,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
    */
   @Class.Public()
   public insertItem(value: T, offset: T): boolean {
-    const element = Template.matchedItems.get(offset);
+    const element = this.matchedItems.get(offset);
     if (!element) {
       throw new Error(`Element does not exists at the specified offset.`);
     }
@@ -680,7 +680,7 @@ export class Template<T extends Object = any> extends Control.Component<Properti
   @Class.Public()
   public removeItem(value: T): boolean {
     const list = this.states.items;
-    const element = Template.matchedItems.get(value);
+    const element = this.matchedItems.get(value);
     if (element) {
       element.remove();
       list.splice(list.indexOf(value), 1);
